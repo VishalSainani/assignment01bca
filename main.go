@@ -1,28 +1,18 @@
 package main
 
 import (
-	"fmt"
-	"strconv"
-
 	"github.com/VishalSainani/assignment01bca/blockchain"
 )
 
 func main() {
-	chain := blockchain.InitBlockChain()
+	var chainHead *blockchain.Block
+	genesis := blockchain.BlockData{Transactions: []string{"S2E", "S2Z"}}
+	chainHead = blockchain.InsertBlock(genesis, chainHead)
+	secondBlock := blockchain.BlockData{Transactions: []string{"E2Alice", "E2Bob", "S2John"}}
+	chainHead = blockchain.InsertBlock(secondBlock, chainHead)
 
-	chain.AddBlock("First Block after Genesis")
-	chain.AddBlock("Second Block after Genesis")
-	chain.AddBlock("Third Block after Genesis")
-
-	for _, block := range chain.Blocks {
-
-		fmt.Printf("Previous Hash: %x\n", block.PrevHash)
-		fmt.Printf("Data in Block: %s\n", block.Data)
-		fmt.Printf("Hash: %x\n", block.Hash)
-
-		pow := blockchain.NewProof(block)
-		fmt.Printf("PoW: %s\n", strconv.FormatBool(pow.Validate()))
-		fmt.Println()
-
-	}
+	blockchain.ListBlocks(chainHead)
+	blockchain.ChangeBlock("S2E", "S2Trudy", chainHead)
+	blockchain.ListBlocks(chainHead)
+	blockchain.VerifyChain(chainHead)
 }
