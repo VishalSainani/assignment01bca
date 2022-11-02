@@ -77,3 +77,8 @@ func VerifyChain(chainHead *Block) {
 	}
 	fmt.Printf("\nBlockChain Verified!\n")
 }
+
+func displayMerkleTree(root *MerkleTree) {
+	print("Data", root.RootNode.Data)
+
+}
